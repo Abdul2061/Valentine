@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Bhavana</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Pacifico&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff0f3;
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        /* Floating Hearts Background */
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            color: #ff4d6d;
+            font-size: 20px;
+            animation: float 6s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-10vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Content Styling */
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            z-index: 10;
+        }
+
+        h1 {
+            color: #ff4d6d;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .btn {
+            background-color: #ff4d6d;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* The Runaway No Button */
+        #no-btn {
+            position: relative;
+            background-color: #6c757d;
+        }
+
+        /* Graffiti Style */
+        .graffiti {
+            position: absolute;
+            font-family: 'Pacifico', cursive;
+            color: #ff4d6d;
+            font-size: 1.5rem;
+            pointer-events: none;
+            z-index: 5;
+            animation: pop 0.5s ease-out;
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(0);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        img {
+            max-width: 200px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="hearts-container" id="hearts"></div>
+
+    <div id="page1" class="container">
+        <h1>Hi Bhavana... ✨</h1>
+        <p>I have something I've been meaning to ask you.</p>
+        <button class="btn" onclick="nextPage(2)">What is it?</button>
+    </div>
+
+    <div id="page2" class="container hidden">
+        <h1>But first...</h1>
+        <p>Do you know how much you brighten up my day every single time we talk?</p>
+        <button class="btn" onclick="nextPage(3)">Maybe...</button>
+    </div>
+
+    <div id="page3" class="container hidden">
+        <h1>And...</h1>
+        <p>Do you know that you are the most amazing person I've ever met?</p>
+        <button class="btn" onclick="nextPage(4)">Go on...</button>
+    </div>
+
+    <div id="page4" class="container hidden">
+        <h1 style="text-transform: uppercase;">Bhavana Priya S, will you be my Valentine?</h1>
+        <div style="position: relative; height: 100px;">
+            <button id="yes-btn" class="btn" onclick="sayYes()">YES</button>
+            <button id="no-btn" class="btn">NO</button>
+        </div>
+    </div>
+
+    <div id="success" class="container hidden">
+        <h1 style="font-size: 3rem;">I KNEW YOU LOVE ME!</h1>
+        <img src="C:\Users\Amaan Siddiqui\OneDrive\New folder\Desktop\VS code\Valentine\Screenshot 2026-02-04 125308.png"
+            alt="Dancing Happy">
+    </div>
+
+    <script>
+        // Floating Hearts Logic
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 3 + 's';
+            document.getElementById('hearts').appendChild(heart);
+            setTimeout(() => heart.remove(), 6000);
+        }
+        setInterval(createHeart, 300);
+
+        // Page Navigation
+        function nextPage(pageNumber) {
+            document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
+            document.getElementById('page' + pageNumber).classList.remove('hidden');
+        }
+
+        // Runaway No Button Logic
+        const noBtn = document.getElementById('no-btn');
+        function moveNoButton() {
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        }
+
+        noBtn.addEventListener('mouseover', moveNoButton);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+
+        // Yes Logic
+        function sayYes() {
+            document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
+            document.getElementById('success').classList.remove('hidden');
+            createGraffiti();
+        }
+
+        function createGraffiti() {
+            const messages = ["LOVE!", "FOREVER", "❤️", "XOXO", "YOU & ME"];
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const g = document.createElement('div');
+                    g.classList.add('graffiti');
+                    g.innerText = messages[Math.floor(Math.random() * messages.length)];
+                    g.style.left = Math.random() * 90 + 'vw';
+                    g.style.top = Math.random() * 90 + 'vh';
+                    g.style.transform = `rotate(${Math.random() * 40 - 20}deg)`;
+                    document.body.appendChild(g);
+                }, i * 100);
+            }
+        }
+    </script>
+</body>
+
+</html>
